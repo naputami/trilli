@@ -1,6 +1,8 @@
-from django.db import models
-from core.models import BaseModel
 from django.contrib.auth.models import User
+from django.db import models
+
+from core.models import BaseModel
+
 
 class Board(BaseModel):
     title = models.CharField(max_length=100)
@@ -8,10 +10,10 @@ class Board(BaseModel):
 
     def get_member_count(self):
         return self.members.count()
-    
+
     def is_member(self, user):
         return self.members.filter(user=user).first()
-    
+
     def get_user_role(self, user):
         try:
             member = self.members.get(user=user)
@@ -19,21 +21,22 @@ class Board(BaseModel):
         except BoardMember.DoesNotExist:
             return None
 
+
 class BoardMember(BaseModel):
     ROLE_CHOICES = [
-        ('admin', 'Admin'),
-        ('editor', 'Editor'),
-        ('viewer', 'Viewer'),
+        ("admin", "Admin"),
+        ("editor", "Editor"),
+        ("viewer", "Viewer"),
     ]
 
-    board =  models.ForeignKey(
+    board = models.ForeignKey(
         Board,
         on_delete=models.CASCADE,
         related_name="members",
         null=False,
         blank=False,
     )
-    user =  models.ForeignKey(
+    user = models.ForeignKey(
         User,
         on_delete=models.CASCADE,
         related_name="board_memberships",
@@ -44,4 +47,4 @@ class BoardMember(BaseModel):
     joined_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        unique_together = ['board', 'user']
+        unique_together = ["board", "user"]

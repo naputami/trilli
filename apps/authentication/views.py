@@ -3,9 +3,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.views import View
-from .forms import UserRegistrationForm, LoginForm
 
 from core.views import LoginRequiredViewMixin
+
+from .forms import LoginForm, UserRegistrationForm
 
 
 class RegisterView(View):
