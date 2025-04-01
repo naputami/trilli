@@ -1,0 +1,64 @@
+{% extends "auth_layout.html" %}
+{% block title %}Login{% endblock %}
+{% block subcontent %}
+<div class="max-w-md mx-auto flex flex-col h-full justify-center">
+    <h2 class="card-title text-2xl font-bold mb-5">Login</h2>
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-control w-full mb-4">
+          <label class="label">
+            <span class="label-text">Username</span>
+          </label>
+          <input type="text" name="{{ form.username.name }}" 
+                 class="input input-bordered w-full" 
+                 placeholder="Username" 
+                 value="{{ form.username.value|default:'' }}">
+          {% if form.username.errors %}
+            <div class="text-error mt-1 text-sm">{{ form.username.errors.0 }}</div>
+          {% endif %}
+        </div>
+        
+        
+        <div class="form-control w-full mb-4">
+          <label class="label">
+            <span class="label-text">Password</span>
+          </label>
+          <input type="password" name="{{ form.password.name }}" 
+                 class="input input-bordered w-full" 
+                 placeholder="Password">
+                {% if form.password.errors %}
+                 <div class="text-error mt-1 text-sm">{{ form.password.errors.0 }}</div>
+               {% endif %}
+        </div>
+
+        {% if messages %}
+        <div class="messages">
+          {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+        
+        {% if form.non_field_errors %}
+          <div class="alert alert-error mb-4">
+            {% for error in form.non_field_errors %}
+              <p>{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endif %}
+        
+        <div class="form-control mt-4">
+          <button type="submit" class="btn btn-primary w-full">Login</button>
+        </div>
+      </form>
+    
+    <div class="mt-6 text-center">
+        <p class="text-sm text-gray-600">
+            Dont have an account? <a href="{% url 'register' %}" class="font-medium text-primary hover:text-primary">Register</a>
+        </p>
+    </div>
+</div>
+      
+
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "main_layout.html" %}
+{% block title %}Board Member{% endblock %}
+{% block subcontent %}
+<section class="mx-auto max-w-xl relative top-24">
+    <div class="bg-base-100 shadow-sm p-8">
+      <div class="flex gap-x-2">
+        <a class="btn btn-circle btn-ghost" href="{% url 'board' %}">
+            <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="size-[1.2em]"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title>ionicons-v5-a</title><polyline points="244 400 100 256 244 112" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"></polyline><line x1="120" y1="256" x2="412" y2="256" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"></line></g></svg>
+          </a>
+        <h2 class="text-neutral font-semibold text-3xl">{{board.title}} Member</h2>
+      </div>
+        <div class="mt-4 space-y-3.5">
+            <a class="btn btn-primary" href="{% url 'add_member' board.id %}">Add New Member</a>
+            <section class="overflow-x-auto">
+                <table class="table">
+                  <!-- head -->
+                  <thead>
+                    <tr>
+                      <th>Name</th>
+                      <th>E-mail</th>
+                      <th>Role</th>
+                      <th>Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for member in members %}
+                    <tr>
+                        <td>{{ member.user.first_name|add:" "|add:member.user.last_name}}</td>
+                        <td>{{ member.user.email}}</td>
+                        <td>{{ member.role }}</td>
+                        <td> {% if member.user != request.user %}
+                          <form method="post" action="{% url 'delete_member' board.id member.id %}">
+                            {% csrf_token %}
+                            <button 
+                               class="btn btn-sm btn-error"
+                               onclick="return confirm('Are you sure you want to remove this member?');">
+                                Remove
+                            </button>
+                          </form>
+                            {% endif %}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </section>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

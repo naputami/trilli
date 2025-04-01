@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="h-screen flex flex-col md:flex-row">
+        <div class="hidden md:block md:w-1/2 h-screen bg-neutral relative overflow-hidden">
+            <div class="relative h-full w-full p-8">
+                <div class="absolute bottom-0 pb-6">
+                    <p class="text-6xl font-bold text-neutral-content">Trilli.</p>
+                    <p class="text-neutral-content font-semibold">Manage your task at east</p>
+                </div>
+            </div>
+        </div>
+        <div class="w-full md:w-1/2 h-screen overflow-y-auto p-8 bg-primary-foreground">
+            {% block subcontent %}{% endblock %}
+        </div>
+    </div>
+    
+
+{% endblock %}

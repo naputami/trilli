@@ -1,0 +1,40 @@
+{% extends "main_layout.html" %}
+{% block title %}Edit Board{% endblock %}
+{% block subcontent %}
+<section class="mx-auto max-w-lg relative top-24">
+    <div class="bg-base-100 shadow-sm p-8">
+        <h2 class="text-neutral font-semibold text-3xl">Edit Board</h2>
+        <div class="mt-4">
+            <form method="post" class="space-y-3">
+                {% csrf_token %}
+                <div class="form-control w-full mb-4">
+                    <label class="label">
+                      <span class="label-text">Title</span>
+                    </label>
+                    <input type="text" name="{{ form.title.name }}" 
+                           class="input input-bordered w-full" 
+                           placeholder="Title" 
+                           value="{{ form.title.value|default:'' }}">
+                    {% if form.title.errors %}
+                      <div class="text-error mt-1 text-sm">{{ form.title.errors.0 }}</div>
+                    {% endif %}
+                  </div>
+                  <div class="form-control w-full mb-4">
+                    <label class="label">
+                        <span class="label-text">Description</span>
+                      </label>
+                    <textarea class="textarea h-24 w-full" name="{{ form.description.name}}" placeholder="Description">{{ form.description.value|default:'' }}</textarea>
+                    {% if form.description.errors %}
+                    <div class="text-error mt-1 text-sm">{{ form.description.errors.0 }}</div>
+                  {% endif %}
+                </div>
+                <div class="form-control mt-4">
+                    <button type="submit" class="btn btn-primary w-full">Edit</button>
+                  </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
