@@ -1,0 +1,72 @@
+{% extends "main_layout.html" %}
+{% block title %}Create Task{% endblock %}
+{% block subcontent %}
+<section class="mx-auto max-w-lg relative top-24 pb-8">
+    <div class="bg-base-100 shadow-sm p-8">
+      <div class="flex gap-x-2">
+        <a class="btn btn-circle btn-ghost" href="{% url 'task_list' board.id %}">
+            <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" fill="currentColor" class="size-[1.2em]"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><title>ionicons-v5-a</title><polyline points="244 400 100 256 244 112" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"></polyline><line x1="120" y1="256" x2="412" y2="256" style="fill:none;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:48px"></line></g></svg>
+          </a>
+        <h2 class="text-neutral font-semibold text-3xl">Create Task</h2>
+      </div>
+        <div class="mt-4">
+            <form method="post" class="space-y-3">
+                {% csrf_token %}
+                    <div class="form-control w-full mb-4">
+                        <label for="{{ form.title.id_for_label }}" class="label">
+                            <span class="label-text">Title</span>
+                          </label>
+                        {{ form.title }}
+                        <div class="text-error mt-1 text-sm">{{ form.title.errors }}</div>
+                    </div>
+                    
+                    <div class="form-control w-full mb-4">
+                        <label for="{{ form.description.id_for_label }}" class="label">
+                            <span class="label-text">Description</span>
+                          </label>
+                        {{ form.description }}
+                        <div class="text-error mt-1 text-sm">{{ form.description.errors }}</div>
+                    </div>
+                    <div class="form-control w-full mb-4">
+                        <label for="{{ form.status.id_for_label }}" class="label">
+                            <span class="label-text">Status</span>
+                          </label>
+                        {{ form.status }}
+                        <div class="text-error mt-1 text-sm">{{ form.status.errors }}</div>
+                    </div>
+                    <div class="form-control w-full mb-4">
+                        <label for="{{ form.assigned_to.id_for_label }}" class="label">
+                            <span class="label-text">Assign To</span>
+                          </label>
+                        {{ form.assigned_to }}
+                        <div class="text-error mt-1 text-sm">{{ form.assigned_to.errors }}</div>
+                    </div>
+                    
+                    <div class="form-control w-full mb-4">
+                        <label for="{{ form.assigned_to.id_for_label }}" class="label">
+                            <span class="label-text">Due Date</span>
+                          </label>
+                        {{ form.due_date }}
+                        <div class="text-error mt-1 text-sm">{{ form.due_date.errors }}</div>
+                    </div>
+                <div class="form-control mt-4">
+                    <button type="submit" class="btn btn-primary w-full">Create</button>
+                  </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}
+
+<!-- templates/task/partials/task_form.html -->
+<form id="task-form" method="post" action="{% url 'ajax_create_task' board.id %}">
+    {% csrf_token %}
+    
+    
+    <div class="form-actions">
+        <button type="button" class="btn-cancel" onclick="closeModal()">Cancel</button>
+        <button type="submit" class="btn-submit">Create Task</button>
+    </div>
+</form>

@@ -4,12 +4,13 @@ from django.db.models import Q
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
-from django.views.generic import DetailView, ListView
+from django.views.generic import ListView
 
 from core.views import LoginRequiredViewMixin
 
 from .forms import BoardForm, BoardMemberForm
 from .models import Board, BoardMember
+from .task import send_board_invitation
 
 
 # Create your views here.
@@ -18,7 +19,6 @@ class BoardListView(LoginRequiredViewMixin, ListView):
     template_name = "board_list.html"
     context_object_name = "boards"
     ordering = ["-created_at"]
-    paginate_by = 20
 
     def get_queryset(self):
         user = self.request.user
@@ -117,6 +117,7 @@ class AddBoardMemberView(LoginRequiredViewMixin, View):
                     )
                 else:
                     BoardMember.objects.create(board=board, user=user, role=role)
+                    send_board_invitation(board.id, user.id)
                     messages.success(
                         request, f"{user.username} has been added to the board."
                     )

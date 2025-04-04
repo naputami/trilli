@@ -2,7 +2,7 @@
 {% load board_tags %}
 {% block title %}Your Board{% endblock %}
 {% block subcontent %}
-<section class="container mx-auto relative top-12">
+<section class="mx-auto max-w-7xl relative top-32">
     <div class="flex justify-between">
         <h2 class="text-neutral font-bold text-5xl">Welcome, {{ user.first_name|default:""}}</h2>
         <a class="btn btn-primary" href="{% url 'create_board' %}">Create New Board</a>
@@ -11,7 +11,7 @@
         {% for board in boards %}
         <div class="card card-border bg-base-100 w-96">
             <div class="card-body">
-              <h2 class="card-title">{{ board.title}}<div class="badge badge-secondary">{{ board|user_role:user }}</div></h2>
+              <h2 class="card-title"><a href="{% url 'task_list' board.id %}" class="hover:underline">{{ board.title}}</a> <div class="badge badge-secondary">{{ board|user_role:user }}</div></h2>
               <p>{{ board.description }}</p>
               <div class="card-actions justify-end">
                 {% if board|user_role:user == 'admin' %}

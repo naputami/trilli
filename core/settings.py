@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     "huey.contrib.djhuey",
     "apps.authentication",
     "apps.board",
+    "apps.task",
 ]
 
 MIDDLEWARE = [
@@ -154,3 +155,11 @@ HUEY = {
     "immediate": False,  # Set to True for development/debugging
     "utc": True,
 }
+
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_HOST = "smtp.gmail.com"
+EMAIL_HOST_USER = "nadiapujiutami05@gmail.com"
+EMAIL_HOST_PASSWORD = "mkyusvfcjorovolz"
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = "default from email"
+EMAIL_TIMEOUT = 60
