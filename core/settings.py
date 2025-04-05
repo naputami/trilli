@@ -148,18 +148,22 @@ STORAGES = {
 }
 
 HUEY = {
-    "huey_class": "huey.SqliteHuey",  # or RedisHuey for production
-    "name": "trilli-app",
-    "results": True,
-    "store_none": False,
-    "immediate": False,  # Set to True for development/debugging
-    "utc": True,
+    'name': 'trilli-django',  # Name of the Redis key
+    'connection': {
+        'host': 'localhost',  # Redis host
+        'port': 32768,        # Redis port
+        'db': 0,             # Redis database number
+    },
+    'immediate': False,
+    'consumer': {
+        'workers': 4,        # Number of worker processes
+        'worker_type': 'thread',  # Use threads (or 'process' for multiprocessing)
+        'initial_delay': 0.1,     # Delay before starting tasks
+        'backoff': 1.15,          # Exponential backoff factor
+        'max_delay': 10.0,        # Maximum delay between retries
+        'scheduler_interval': 1,  # Check schedule every second
+        'periodic': True,         # Enable periodic tasks
+        'check_worker_health': True,  # Monitor worker health
+        'health_check_interval': 1,   # Health check frequency
+    },
 }
-
-EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = "smtp.gmail.com"
-EMAIL_HOST_USER = "nadiapujiutami05@gmail.com"
-EMAIL_HOST_PASSWORD = "mkyusvfcjorovolz"
-EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = "default from email"
-EMAIL_TIMEOUT = 60

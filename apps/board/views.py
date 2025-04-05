@@ -10,7 +10,7 @@ from core.views import LoginRequiredViewMixin
 
 from .forms import BoardForm, BoardMemberForm
 from .models import Board, BoardMember
-from .task import send_board_invitation
+from .task import send_board_invitation_task
 
 
 # Create your views here.
@@ -44,7 +44,6 @@ class CreateBoardView(LoginRequiredViewMixin, View):
 
             BoardMember.objects.create(board=board, user=request.user, role="admin")
 
-            messages.success(request, "Board created successfully!")
             return redirect("board")
         else:
             return render(request, "create_board.html", {"form": form})
@@ -109,6 +108,7 @@ class AddBoardMemberView(LoginRequiredViewMixin, View):
             role = form.cleaned_data["role"]
 
             user = User.objects.get(email=email)
+            
 
             try:
                 if board.is_member(user):
@@ -117,17 +117,13 @@ class AddBoardMemberView(LoginRequiredViewMixin, View):
                     )
                 else:
                     BoardMember.objects.create(board=board, user=user, role=role)
-                    send_board_invitation(board.id, user.id)
-                    messages.success(
-                        request, f"{user.username} has been added to the board."
-                    )
+                    send_board_invitation_task(board.id, user.id)
                     return redirect("board_member", id=board.id)
             except User.DoesNotExist:
                 messages.error(request, "User not found.")
+                return render(request, "add_member.html", {"form": form, "board": board})
         else:
-            form = BoardMemberForm()
-
-        return render(request, "add_member.html", {"form": form, "board": board})
+            return render(request, "add_member.html", {"form": form, "board": board})
 
 
 class DeleteMemberView(LoginRequiredViewMixin, View):

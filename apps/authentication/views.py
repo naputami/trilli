@@ -1,6 +1,5 @@
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
 from django.shortcuts import redirect, render
 from django.views import View
 
@@ -20,7 +19,6 @@ class RegisterView(View):
             form.save()
             return redirect("login")
         else:
-            print(form.errors)
             return render(request, "register.html", {"form": form})
 
 
@@ -38,7 +36,7 @@ class LoginView(View):
 
             if user is not None:
                 login(request, user)
-                return redirect("board")  # Replace with your home page URL name
+                return redirect("board") 
             else:
                 messages.error(request, "Invalid username or password")
                 return render(request, "login.html", {"form": form})
@@ -48,6 +46,5 @@ class LoginView(View):
 
 class LogoutView(LoginRequiredViewMixin, View):
     def post(self, request):
-        print("logout")
         logout(request)
         return redirect("login")

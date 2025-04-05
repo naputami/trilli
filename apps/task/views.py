@@ -1,4 +1,3 @@
-from django.contrib import messages
 from django.http import HttpResponseForbidden
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
@@ -55,7 +54,43 @@ class CreateTaskView(LoginRequiredViewMixin, View):
             task.board = board
             task.save()
 
-            messages.success(request, "Task created successfully!")
             return redirect("task_list", board_id=board.id)
         else:
             return render(request, "create_task.html", {"form": form, "board": board})
+
+class EditTaskView(LoginRequiredViewMixin, View):
+    def get(self, request, board_id, task_id):
+        board = get_object_or_404(Board, id=board_id)
+        task = get_object_or_404(Task, id=task_id)
+        form = TaskForm(instance=task, request=request, board=board)
+        return render(request, "edit_task.html", {"form": form, "board": board})
+    
+    def post(self, request, board_id, task_id):
+        form = TaskForm(request.POST)
+        if form.is_valid():
+            title = form.cleaned_data["title"]
+            description = form.cleaned_data["description"]
+            due_date = form.cleaned_data["due_date"]
+            assigned_to = form.cleaned_data["assigned_to"]
+            status = form.cleaned_data["status"]
+
+            task = get_object_or_404(Task, id=task_id)
+            task.title = title
+            task.description = description
+            task.due_date = due_date
+            task.assigned_to = assigned_to
+            task.status = status
+            task.save()
+
+            board = get_object_or_404(Board, id=board_id)
+
+            return redirect("task_list", board_id=board_id)
+        else:
+            return render(request, "create_task.html", {"form": form, "board": board})
+
+class DeleteTaskView(LoginRequiredViewMixin, View):
+    def post(self, request, board_id, task_id):
+        task = get_object_or_404(Task, id=task_id)
+        task.delete()
+
+        return redirect("task_list", board_id=board_id)

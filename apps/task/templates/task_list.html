@@ -24,8 +24,9 @@
             {% empty %}
               <div class="text-center py-4 text-base-content/50">No tasks yet</div>
             {% endfor %}
-            <!-- Add Task Button -->
+            {% if board|user_role:request.user != 'viewer' %}
             <a href="{% url 'create_task' board.id %}?status=todo" class="btn btn-ghost btn-sm w-full mt-2">+ Add Task</a>
+            {% endif %}
           </div>
         </div>
       
@@ -43,8 +44,9 @@
             {% empty %}
               <div class="text-center py-4 text-base-content/50">No tasks yet</div>
             {% endfor %}
-            <!-- Add Task Button -->
+            {% if board|user_role:request.user != 'viewer' %}
             <a href="{% url 'create_task' board.id %}?status=in_progress" class="btn btn-ghost btn-sm w-full mt-2">+ Add Task</a>
+            {% endif %}
           </div>
         </div>
       
@@ -62,8 +64,9 @@
             {% empty %}
               <div class="text-center py-4 text-base-content/50">No tasks yet</div>
             {% endfor %}
-            <!-- Add Task Button -->
+            {% if board|user_role:request.user != 'viewer' %}
             <a href="{% url 'create_task' board.id %}?status=done" class="btn btn-ghost btn-sm w-full mt-2">+ Add Task</a>
+            {% endif %}
           </div>
         </div>
       </div>
