@@ -2,18 +2,22 @@
 {% load board_tags %}
 {% block title %}Your Board{% endblock %}
 {% block subcontent %}
-<section class="mx-auto max-w-7xl relative top-32">
-    <div class="flex justify-between">
-        <h2 class="text-neutral font-bold text-5xl">Welcome, {{ user.first_name|default:""}}</h2>
+<section class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative md:top-32 top-24">
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+        <h2 class="text-neutral font-bold text-3xl md:text-4xl lg:text-5xl">Welcome, {{ user.first_name|default:""}}</h2>
         <a class="btn btn-primary" href="{% url 'create_board' %}">Create New Board</a>
     </div>
-    <div class="grid grid-cols-3 gap-y-4 mt-12">
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-8 md:mt-12">
         {% for board in boards %}
-        <div class="card card-border bg-base-100 w-96">
+        <div class="card card-border bg-base-100 w-full">
             <div class="card-body">
-              <h2 class="card-title"><a href="{% url 'task_list' board.id %}" class="hover:underline">{{ board.title}}</a> <div class="badge badge-secondary">{{ board|user_role:user }}</div></h2>
+              <h2 class="card-title flex flex-wrap gap-2">
+                <a href="{% url 'task_list' board.id %}" class="hover:underline">{{ board.title}}</a> 
+                <div class="badge badge-secondary">{{ board|user_role:user }}</div>
+              </h2>
               <p>{{ board.description }}</p>
-              <div class="card-actions justify-end">
+              <div class="card-actions justify-end mt-2">
                 {% if board|user_role:user == 'admin' %}
                 <div class="tooltip" data-tip="manage board member">
                   <a class="btn btn-outline btn-accent btn-square" href="{% url 'board_member' board.id %}">
@@ -38,9 +42,31 @@
             </div>
           </div>
         {% empty %}
-        <p>No board available</p>
+        <p class="col-span-1 md:col-span-2 lg:col-span-3 text-center text-lg py-8">No board available</p>
         {% endfor %}
     </div>
+    
+    {# Pagination controls #}
+    {% if is_paginated %}
+    <div class="join flex justify-center mt-8">
+        {% if page_obj.has_previous %}
+            <a href="?page=1" class="join-item btn">«</a>
+            <a href="?page={{ page_obj.previous_page_number }}" class="join-item btn">‹</a>
+        {% endif %}
+        
+        {% for num in page_obj.paginator.page_range %}
+            {% if page_obj.number == num %}
+                <a href="?page={{ num }}" class="join-item btn btn-active">{{ num }}</a>
+            {% elif num > page_obj.number|add:'-3' and num < page_obj.number|add:'3' %}
+                <a href="?page={{ num }}" class="join-item btn">{{ num }}</a>
+            {% endif %}
+        {% endfor %}
+        
+        {% if page_obj.has_next %}
+            <a href="?page={{ page_obj.next_page_number }}" class="join-item btn">›</a>
+            <a href="?page={{ page_obj.paginator.num_pages }}" class="join-item btn">»</a>
+        {% endif %}
+    </div>
+    {% endif %}
 </section>
-
 {% endblock %}

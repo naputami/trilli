@@ -19,6 +19,7 @@ class BoardListView(LoginRequiredViewMixin, ListView):
     template_name = "board_list.html"
     context_object_name = "boards"
     ordering = ["-created_at"]
+    paginate_by = 6  
 
     def get_queryset(self):
         user = self.request.user
