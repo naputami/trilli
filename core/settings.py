@@ -151,7 +151,7 @@ HUEY = {
     "name": "trilli-django",  # Name of the Redis key
     "connection": {
         "host": "localhost",  # Redis host
-        "port": 32768,  # Redis port
+        "port": 6379,  # Redis port
         "db": 0,  # Redis database number
     },
     "immediate": False,
