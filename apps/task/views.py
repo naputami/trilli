@@ -58,13 +58,14 @@ class CreateTaskView(LoginRequiredViewMixin, View):
         else:
             return render(request, "create_task.html", {"form": form, "board": board})
 
+
 class EditTaskView(LoginRequiredViewMixin, View):
     def get(self, request, board_id, task_id):
         board = get_object_or_404(Board, id=board_id)
         task = get_object_or_404(Task, id=task_id)
         form = TaskForm(instance=task, request=request, board=board)
         return render(request, "edit_task.html", {"form": form, "board": board})
-    
+
     def post(self, request, board_id, task_id):
         form = TaskForm(request.POST)
         if form.is_valid():
@@ -87,6 +88,7 @@ class EditTaskView(LoginRequiredViewMixin, View):
             return redirect("task_list", board_id=board_id)
         else:
             return render(request, "create_task.html", {"form": form, "board": board})
+
 
 class DeleteTaskView(LoginRequiredViewMixin, View):
     def post(self, request, board_id, task_id):

@@ -36,7 +36,7 @@ class LoginView(View):
 
             if user is not None:
                 login(request, user)
-                return redirect("board") 
+                return redirect("board")
             else:
                 messages.error(request, "Invalid username or password")
                 return render(request, "login.html", {"form": form})

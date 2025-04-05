@@ -108,7 +108,6 @@ class AddBoardMemberView(LoginRequiredViewMixin, View):
             role = form.cleaned_data["role"]
 
             user = User.objects.get(email=email)
-            
 
             try:
                 if board.is_member(user):
@@ -121,7 +120,9 @@ class AddBoardMemberView(LoginRequiredViewMixin, View):
                     return redirect("board_member", id=board.id)
             except User.DoesNotExist:
                 messages.error(request, "User not found.")
-                return render(request, "add_member.html", {"form": form, "board": board})
+                return render(
+                    request, "add_member.html", {"form": form, "board": board}
+                )
         else:
             return render(request, "add_member.html", {"form": form, "board": board})
 

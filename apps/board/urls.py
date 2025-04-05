@@ -1,14 +1,8 @@
 from django.urls import path
 
-from .views import (
-    AddBoardMemberView,
-    BoardListView,
-    BoardMemberView,
-    CreateBoardView,
-    DeleteBoardView,
-    DeleteMemberView,
-    EditBoardView,
-)
+from .views import (AddBoardMemberView, BoardListView, BoardMemberView,
+                    CreateBoardView, DeleteBoardView, DeleteMemberView,
+                    EditBoardView)
 
 urlpatterns = [
     path("", BoardListView.as_view(), name="board"),

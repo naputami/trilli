@@ -1,15 +1,18 @@
 import logging
-from mailjet_rest import Client
 import os
-from dotenv import load_dotenv
-from apps.board.models import Board
+
 from django.contrib.auth.models import User
+from dotenv import load_dotenv
+from mailjet_rest import Client
+
+from apps.board.models import Board
 
 load_dotenv(override=True)
 
-api_key = os.environ.get('MJ_APIKEY_PUBLIC')
-api_secret = os.environ.get('MJ_APIKEY_PRIVATE')
-mailjet = Client(auth=(api_key, api_secret), version='v3.1')
+api_key = os.environ.get("MJ_APIKEY_PUBLIC")
+api_secret = os.environ.get("MJ_APIKEY_PRIVATE")
+mailjet = Client(auth=(api_key, api_secret), version="v3.1")
+
 
 def send_board_invitation(board_id, user_id):
     logger = logging.getLogger("huey.consumer")
@@ -38,23 +41,23 @@ def send_board_invitation(board_id, user_id):
          </div>
         """
         data = {
-            'Messages': [
-                            {
-                                    "From": {
-                                            "Email": "nadiapujiutami14@gmail.com",
-                                            "Name": "Trilli Team"
-                                    },
-                                    "To": [
-                                            {
-                                                    "Email": user.email,
-                                                    "Name": f'{user.first_name} {user.last_name}'
-                                            }
-                                    ],
-                                    "Subject": subject,
-                                    "TextPart": message_text,
-                                    "HTMLPart": message_html
-                            }
-                    ]
+            "Messages": [
+                {
+                    "From": {
+                        "Email": "nadiapujiutami14@gmail.com",
+                        "Name": "Trilli Team",
+                    },
+                    "To": [
+                        {
+                            "Email": user.email,
+                            "Name": f"{user.first_name} {user.last_name}",
+                        }
+                    ],
+                    "Subject": subject,
+                    "TextPart": message_text,
+                    "HTMLPart": message_html,
+                }
+            ]
         }
         result = mailjet.send.create(data=data)
         logger.info(result.status_code)

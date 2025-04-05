@@ -1,6 +1,6 @@
 from django.urls import path
 
-from .views import CreateTaskView, TaskListView, EditTaskView, DeleteTaskView
+from .views import CreateTaskView, DeleteTaskView, EditTaskView, TaskListView
 
 urlpatterns = [
     path("boards/<str:board_id>/tasks/", TaskListView.as_view(), name="task_list"),
@@ -14,7 +14,7 @@ urlpatterns = [
         EditTaskView.as_view(),
         name="edit_task",
     ),
-     path(
+    path(
         "boards/<str:board_id>/tasks/<str:task_id>/delete/",
         DeleteTaskView.as_view(),
         name="delete_task",

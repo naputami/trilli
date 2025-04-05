@@ -148,22 +148,22 @@ STORAGES = {
 }
 
 HUEY = {
-    'name': 'trilli-django',  # Name of the Redis key
-    'connection': {
-        'host': 'localhost',  # Redis host
-        'port': 32768,        # Redis port
-        'db': 0,             # Redis database number
+    "name": "trilli-django",  # Name of the Redis key
+    "connection": {
+        "host": "localhost",  # Redis host
+        "port": 32768,  # Redis port
+        "db": 0,  # Redis database number
     },
-    'immediate': False,
-    'consumer': {
-        'workers': 4,        # Number of worker processes
-        'worker_type': 'thread',  # Use threads (or 'process' for multiprocessing)
-        'initial_delay': 0.1,     # Delay before starting tasks
-        'backoff': 1.15,          # Exponential backoff factor
-        'max_delay': 10.0,        # Maximum delay between retries
-        'scheduler_interval': 1,  # Check schedule every second
-        'periodic': True,         # Enable periodic tasks
-        'check_worker_health': True,  # Monitor worker health
-        'health_check_interval': 1,   # Health check frequency
+    "immediate": False,
+    "consumer": {
+        "workers": 4,  # Number of worker processes
+        "worker_type": "thread",  # Use threads (or 'process' for multiprocessing)
+        "initial_delay": 0.1,  # Delay before starting tasks
+        "backoff": 1.15,  # Exponential backoff factor
+        "max_delay": 10.0,  # Maximum delay between retries
+        "scheduler_interval": 1,  # Check schedule every second
+        "periodic": True,  # Enable periodic tasks
+        "check_worker_health": True,  # Monitor worker health
+        "health_check_interval": 1,  # Health check frequency
     },
 }
