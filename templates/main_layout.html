@@ -1,28 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="navbar bg-neutral text-neutral-content shadow-sm fixed top-0">
-    <div class="flex-1">
-      <a class="btn btn-ghost text-xl">Trilli.</a>
+<div class="navbar bg-neutral text-neutral-content shadow-sm fixed top-0 w-full z-10">
+  <div class="navbar-start">
+    <div class="dropdown lg:hidden">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-circle">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h7" />
+        </svg>
+      </div>
+      <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-20 p-2 shadow bg-base-100 text-base-content rounded-box w-52">
+        <!-- Mobile menu can include any future navigation if needed -->
+        <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button class="btn btn-link" type="submit">Logout</button>
+        </form>
+      </ul>
     </div>
-    <div class="flex gap-2">
-      <div class="dropdown dropdown-end">
-        <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar avatar-placeholder">
-            <div class="bg-primary text-primary-content w-12 rounded-full">
-                <span>{{ user.first_name.0|default:""}}{{ user.last_name.0|default:""}}</span>
-              </div>
+    <a class="btn btn-ghost text-xl">Trilli.</a>
+  </div>
+  
+  <div class="navbar-end hidden lg:flex">
+    <div class="dropdown dropdown-end">
+      <div tabindex="0" role="button" class="btn btn-ghost btn-circle avatar avatar-placeholder">
+        <div class="bg-primary text-primary-content w-10 rounded-full">
+          <span>{{ user.first_name.0|default:""}}{{ user.last_name.0|default:""}}</span>
         </div>
-        <div
-          tabindex="0"
-          class="menu menu-sm dropdown-content text-base-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-            <form action="{% url 'logout' %}" method="post">
-                {% csrf_token %}
-                <button class="btn btn-link" type="submit">Logout</button>
-            </form>
-        </div>
+      </div>
+      <div
+        tabindex="0"
+        class="menu menu-sm dropdown-content text-base-content bg-base-100 rounded-box z-20 mt-3 w-52 p-2 shadow">
+        <form action="{% url 'logout' %}" method="post">
+          {% csrf_token %}
+          <button class="btn btn-link" type="submit">Logout</button>
+        </form>
       </div>
     </div>
   </div>
-    {% block subcontent %}{% endblock %}
-
+</div>
+  {% block subcontent %}{% endblock %}
 {% endblock %}
