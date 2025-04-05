@@ -31,10 +31,6 @@ username: testuser1
 password: cobauser1
 ```
 
-Thanks for letting me know! Here's an updated installation section for the README that includes Django, Huey, and Redis:
-
----
-
 ## Installation
 
 1. Clone the repository:
