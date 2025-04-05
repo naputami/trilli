@@ -1,0 +1,35 @@
+name: Trilli Deployment
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      -'**/README.md'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+    
+    - name: Setup SSH
+      uses: webfactory/ssh-agent@v0.5.0
+      with:
+        ssh-private-key: ${{secrets.SSH_PRIVATE_KEY}}
+        
+        
+    - name: Deploy to server
+      run : |
+            ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "
+            cd /trilli &&
+            git pull origin main &&
+            source .venv/bin/activate &&
+            pip install -r requirements.txt &&
+            ./manage.py migrate &&
+            ./manage.py collectstatic --noinput &&
+            sudo systemctl restart trilli-web.service
+            sudo systemctl restart trilli-workers.service
+            "
